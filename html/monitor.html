@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="../css/monitor.css">
     <link rel="icon" type="image/png" href="../assets/logo.png">
     <script type="text/javascript" src="../src/toggle-mode.js" defer></script>
-    <script type="text/javascript" src="../src/auth.js" defer></script>
     <script type="text/javascript" src="../src/monitor.js" defer></script>
     <script type="text/javascript" src="../src/monitor-auth.js" defer></script>
 </head>
@@ -41,18 +40,22 @@
 <section id="historical-section">
     <h2>Historical Data</h2>
     <canvas id="historicalChart"></canvas>
+    <button class="zoom" onclick="resetZoom()">Reset Zoom</button>
 </section>
+
 
 <!-- Sidebar -->
 <div id="sidebar" class="sidebar">
     <button id="close-btn" class="close-btn">&times;</button>
-    <a href="javascript:void(0)" onclick="scrollToSection('status-section')">Current Capacity</a>
-    <a href="javascript:void(0)" onclick="scrollToSection('prediction-section')">Estimation</a>
-    <a href="javascript:void(0)" onclick="scrollToSection('historical-section')">Historical Data</a>
+    <a href="home.html" id="homeButton">Home</a>
     <a href="javascript:void(0)" id="threshold-btn">Thresholds</a>
     <a href="javascript:void(0)" id="settings-btn">Settings</a>
     <a href="https://ourprofile.netlify.app">About Us</a>
+    <a href="javascript:void(0)" onclick="scrollToSection('status-section')">Current Capacity</a>
+    <a href="javascript:void(0)" onclick="scrollToSection('prediction-section')">Estimation</a>
+    <a href="javascript:void(0)" onclick="scrollToSection('historical-section')">Historical Data</a>
     <a href="javascript:void(0)" id="Logout-btn">Logout</a>
+
     <!-- Dark/Light Mode Button at the Bottom -->
     <button id="theme-switch-sidebar">
         <svg id="sidebar-sun-icon" width="24" height="24" fill="currentColor">
