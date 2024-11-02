@@ -437,7 +437,7 @@ body {
   animation: moveBackground 20s linear infinite;
 }
 
-/* Light Mode */
+/* Light Mode */                             
 body {
   background-color: #d7d8de;
   background-image: 
