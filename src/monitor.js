@@ -1,4 +1,3 @@
-// Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyCgrcyyM547ICJc6fzbunqWSV64pKlRfZA",
   authDomain: "septic-tank-capacity.firebaseapp.com",
@@ -13,56 +12,52 @@ const firebaseConfig = {
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
-const db = firebase.firestore();
+const database = firebase.database();
 
-// Tank dimensions and capacity calculation
-let tankDimensions = { height: 35, length: 45, width: 45 };
-let septicTankCapacity = calculateSepticTankCapacity(tankDimensions);
-
-// Charts and prediction variables
+let Ci = null;
+let Ti = null;
 let capacityChart, historicalChart;
-let previousVolume = null;
-let previousTimestamp = null;
 
-// Authentication state check
 auth.onAuthStateChanged((user) => {
   if (user) {
-    const userEmail = user.email;
-    if (userEmail === 'paulcorsino28@gmail.com') {
-      initializeApp('users', 'paulcorsino28@gmail.com', 'septicTankData');
-    } else if (userEmail === 'dcamorganda@gmail.com') {
-      initializeApp('users', 'dcamorganda@gmail.com', 'septicTankData2');
+    const userId = user.uid;
+    if (userId === 'oAXEiv3HxfbNlRpH4i2o4mju0sJ2') {
+      initializeApp(userId, 'septicTankData');
+    } else if (userId === '2GVrMIaFSGeoC01g8zYuin2c5ej2') {
+      initializeApp(userId, 'septicTankData');
     } else {
-      console.log("Unknown user email. No data available.");
+      console.log("Unknown user. No data available.");
     }
   } else {
-    window.location.href = '../html/index.html';
+    window.location.href = '../index.html';
   }
 });
 
-// Initialize charts once
 initializeCharts();
 
-function initializeApp(userCollection, userEmail, collectionName) {
-  // Fetch tank dimensions
-  db.collection('tankDimensions').doc('dimensions').get().then((doc) => {
-    if (doc.exists) {
-      tankDimensions = doc.data();
-      septicTankCapacity = calculateSepticTankCapacity(tankDimensions);
+function fetchTankDimensions(userId) {
+  database.ref(`users/${userId}/tankDimensions`).once('value', (snapshot) => {
+    if (snapshot.exists()) {
+      const dimensions = snapshot.val();
+      document.getElementById('tankHeight').textContent = `${dimensions.tank_height} cm`;
+      document.getElementById('tankLength').textContent = `${dimensions.tank_length} cm`;
+      document.getElementById('tankWidth').textContent = `${dimensions.tank_width} cm`;
+    } else {
+      console.error('Tank dimensions not found.');
     }
+  }).catch((error) => {
+    console.error('Error fetching tank dimensions:', error);
   });
+}
 
-  // Real-time data update listener
-  db.collection(userCollection).doc(userEmail).collection(collectionName)
-    .orderBy('timestamp').limit(10)
-    .onSnapshot(handleSnapshot, handleError);
-
-  // Event listener for saving tank dimensions
-  document.getElementById('save-settings').addEventListener('click', saveTankDimensions);
+function initializeApp(userId, dataKey) {
+  database.ref(`users/${userId}/${dataKey}`).orderByKey().limitToLast(10).on('value', (snapshot) => {
+    handleSnapshot(snapshot);
+  }, handleError);
+  fetchTankDimensions(userId);
 }
 
 function initializeCharts() {
-  // Initialize capacity chart
   capacityChart = new Chart(document.getElementById('capacityChart').getContext('2d'), {
     type: 'doughnut',
     data: {
@@ -87,7 +82,6 @@ function initializeCharts() {
     }
   });
 
-  // Initialize historical chart with zoom features
   historicalChart = new Chart(document.getElementById('historicalChart').getContext('2d'), {
     type: 'line',
     data: {
@@ -123,14 +117,14 @@ function initializeCharts() {
           zoom: {
             wheel: {
               enabled: true,
-              speed: 0.1 // Control zoom sensitivity
+              speed: 0.1
             },
             pinch: {
               enabled: true
             },
             mode: 'x',
             limits: {
-              x: { min: 'original', max: 'original' } // Prevent zooming out beyond initial range
+              x: { min: 'original', max: 'original' }
             }
           }
         }
@@ -139,42 +133,30 @@ function initializeCharts() {
   });
 }
 
-function calculateSepticTankCapacity(dimensions) {
-  return (dimensions.height * dimensions.length * dimensions.width) / 1000;
-}
-
 function handleSnapshot(snapshot) {
-  if (snapshot.empty) {
+  if (!snapshot.exists()) {
     console.log("No matching documents found!");
     return;
   }
 
-  // Clear the existing chart data before updating
   capacityChart.data.datasets[0].data = [];
   historicalChart.data.labels = [];
   historicalChart.data.datasets[0].data = [];
 
-  snapshot.forEach((doc) => {
-    const data = doc.data();
-    const capacity = data.capacity;
-    const currentVolume = (capacity / 100) * septicTankCapacity;
+  snapshot.forEach((childSnapshot) => {
+    const data = childSnapshot.val();
+    const Cc = data.capacity; 
+    const Tc = data.timestamp;
 
-    console.log("Data from Firestore: ", data); // Log data for debugging
+    const timestampDate = new Date(Tc * 1000);
+    const formattedTime = timestampDate.toLocaleTimeString();
+    const formattedDate = timestampDate.toLocaleDateString();
 
-    // Convert Unix timestamp (seconds) to a JavaScript Date object
-    const timestampDate = new Date(data.timestamp * 1000); // Multiplying by 1000 to convert from seconds to milliseconds
-
-    // Format the date and time to a readable format
-    const formattedTime = timestampDate.toLocaleTimeString();  // For time (hours, minutes, seconds)
-    const formattedDate = timestampDate.toLocaleDateString();  // For date (day, month, year)
-
-    // Update chart and calculations
-    updateCapacity(capacity);
-    updateHistoricalChart(capacity, formattedDate, formattedTime);
-    calculatePrediction(currentVolume, data.timestamp);  // Use the raw timestamp for calculations
+    updateCapacity(Cc);
+    updateHistoricalChart(Cc, formattedDate, formattedTime);
+    calculatePrediction(Cc, Tc);
   });
 
-  // Update the charts
   capacityChart.update();
   historicalChart.update();
 }
@@ -187,63 +169,85 @@ function resetZoom() {
   historicalChart.resetZoom();
 }
 
-function updateCapacity(capacity) {
-  capacityChart.data.datasets[0].data = [capacity, 100 - capacity];
+function updateCapacity(Cc) {
+  capacityChart.data.datasets[0].data = [Cc, 100 - Cc];
   capacityChart.update();
 
-  document.getElementById("capacity").innerHTML = `<span class="capacity-text">Capacity: ${capacity}%</span>`;
+  document.getElementById("capacity").innerHTML = `<span class="capacity-text">Capacity: ${Cc}%</span>`;
 
   const statusElement = document.getElementById("status");
   let status, color;
 
-  if (capacity < 75) [status, color] = ['Normal', 'var(--status-green)'];
-  else if (capacity <= 85) [status, color] = ['Above Normal', 'var(--status-yellow)'];
-  else if (capacity <= 95) [status, color] = ['Critical', 'var(--status-orange)'];
-  else [status, color] = ['Full', 'var(--status-red)'];  
+  if (Cc < 75) [status, color] = ['Normal', 'var(--status-green)'];
+  else if (Cc <= 85) [status, color] = ['Above Normal', 'var(--status-yellow)'];
+  else if (Cc <= 95) [status, color] = ['Critical', 'var(--status-orange)'];
+  else [status, color] = ['Full', 'var(--status-red)'];
 
   statusElement.innerHTML = `<span class="status-text">The Septic Tank is </span><span class="status" style="color: ${color};"><strong>${status}</strong></span>`;
 }
 
-function updateHistoricalChart(capacity, date, timestamp) {
-  historicalChart.data.labels.push(`${date} ${timestamp}`);
-  historicalChart.data.datasets[0].data.push(capacity);
+function updateHistoricalChart(Cc, date, Tc) {
+  historicalChart.data.labels.push(`${date} ${Tc}`);
+  historicalChart.data.datasets[0].data.push(Cc);
   historicalChart.update();
 }
 
-function calculatePrediction(currentVolume, currentTime) {
-  if (previousVolume !== null && previousTimestamp !== null) {
-    const flowRate = (currentVolume - previousVolume) / (currentTime - previousTimestamp);
-    const remainingVolume = septicTankCapacity - currentVolume;
-    const estimatedTimeToFull = remainingVolume / flowRate;
+function calculatePrediction(Cc, Tc) {
+  if (Ti !== null && Ti !== null) {
+    const C = Cc - Ci; // Change in capacity 
+    const T = Tc - Ti; // Time difference
 
-    if (flowRate > 0) {
-      const hoursToFull = estimatedTimeToFull / 3600;
-      document.getElementById("prediction").innerHTML = hoursToFull >= 1 ?
-        `<span class="time-until-full">The Septic Tank will be full in <strong>${hoursToFull.toFixed(2)} hours</strong></span>` :
-        `<span class="time-until-full">The Septic Tank will be full in <strong>${(hoursToFull * 60).toFixed(0)} minutes</strong></span>`;
+    const Q = C / T; // Flow rate 
+    const Cr = 100 - Cc;  // Remaining capacity percentage 
+    const Tf = Cr / Q; // Estimated time until full 
+
+    if (Q > 0) {
+      const Th = Tf;
+      const days = Math.floor(Th / 86400);  // 86400 seconds in a day
+      const hours = Math.floor((Th % 86400) / 3600);  // Remaining hours after extracting days
+      const minutes = Math.floor((Th % 3600) / 60);   // Remaining minutes after extracting hours
+
+      let predictionText = `<span class="time-until-full">The Septic Tank will be full in `;
+
+      const timeParts = [];
+      if (days > 0) timeParts.push(`${days} day${days !== 1 ? 's' : ''}`);
+      if (hours > 0) timeParts.push(`${hours} hour${hours !== 1 ? 's' : ''}`);
+      if (minutes > 0) timeParts.push(`${minutes} minute${minutes !== 1 ? 's' : ''}`);
+
+      predictionText += `<strong>${timeParts.join(' and ')}</strong></span>`;
+
+      document.getElementById("prediction").innerHTML = predictionText;
+    } else if (Q < 0) {
+      document.getElementById("prediction").innerHTML = `<span class="negative-flow">Negative flow rate detected! The septic tank capacity is decreasing.</span>`;
     } else {
-      document.getElementById("prediction").innerHTML = `<span class="rate-too-low">Flow rate is too low to estimate time.</span>`;
+      document.getElementById("prediction").innerHTML = `<span class="rate-too-low">No flow rate detected! The septic tank will not fill under current conditions.</span>`;
     }
   }
 
-  previousVolume = currentVolume;
-  previousTimestamp = currentTime;
+  Ci = Cc;
+  Ti = Tc;
 }
 
-function saveTankDimensions() {
-  const newDimensions = {
-    height: parseFloat(document.getElementById('input-tankHeight').value),
-    length: parseFloat(document.getElementById('input-tankLength').value),
-    width: parseFloat(document.getElementById('input-tankWidth').value)
-  };
-
-  db.collection('tankDimensions').doc('dimensions').set(newDimensions)
-    .then(() => {
-      tankDimensions = newDimensions;
-      septicTankCapacity = calculateSepticTankCapacity(tankDimensions);
-      alert("Tank dimensions saved successfully!");
-    })
-    .catch((error) => {
-      console.error("Error saving dimensions: ", error);
+// Go back to home.html if user did not click the Septic tank to monitor (typed the URL)
+auth.onAuthStateChanged((user) => {
+  if (user) {
+    document.getElementById('homeButton').addEventListener('click', (event) => {
+      event.preventDefault();
+      window.location.href = '../home/home.html';
     });
+  } else {
+    window.location.href = '../index.html';
+  }
+});
+
+document.getElementById('Logout-btn').addEventListener('click', function() {
+  auth.signOut().then(() => {
+    window.location.href = '../index.html';
+  }).catch((error) => {
+    console.error('Logout Error: ', error);
+  });
+});
+
+function scrollToSection(sectionId) {
+  document.getElementById(sectionId).scrollIntoView({ behavior: 'smooth' });
 }

@@ -1,4 +1,3 @@
-// Initialize Firebase with your config
 const firebaseConfig = {
     apiKey: "AIzaSyCgrcyyM547ICJc6fzbunqWSV64pKlRfZA",
     authDomain: "septic-tank-capacity.firebaseapp.com",
@@ -8,6 +7,7 @@ const firebaseConfig = {
   
   firebase.initializeApp(firebaseConfig);
   
+  // Handle login
   document.addEventListener('DOMContentLoaded', () => {
       const loginForm = document.getElementById('login-modal');
       const errorMessage = document.getElementById('error-message');
@@ -20,14 +20,18 @@ const firebaseConfig = {
           firebase.auth().signInWithEmailAndPassword(email, password)
               .then((userCredential) => {
                   // Redirect to home page after successful login
-                  window.location.href = '../html/home.html';
+                  window.location.href = '/home/home.html';
               })
               .catch((error) => {
-                  // Handle errors
-                  errorMessage.textContent = error.message;
-              });
+                // Map Firebase error codes to custom messages
+                switch (error.code) {
+                    default:
+                        errorMessage.textContent = 'Error! Invalid credentials. Please try again.';
+                }
+            });            
       });
   });  
+
    // Modal Functionality
    const loginToggleBtn = document.getElementById('login-toggle-btn');
    const loginModal = document.getElementById('login-modal');
@@ -77,7 +81,6 @@ const observer = new IntersectionObserver((entries) => {
 
 sections.forEach(section => observer.observe(section));
 
-
 // Observe each section
 sections.forEach((section) => {
     observer.observe(section);
@@ -101,4 +104,28 @@ document.querySelectorAll('a.nav-link').forEach(anchor => {
         });
     });
 });
+document.addEventListener("DOMContentLoaded", () => {
+    const hamburger = document.getElementById("hamburger");
+    const sidePanel = document.getElementById("side-panel");
+    const closeBtn = document.getElementById("close-btn");
+    const loginToggleBtn2 = document.getElementById('login-toggle-btn2');
+    const loginModal2 = document.getElementById('login-modal');
 
+    hamburger.addEventListener("click", () => {
+        sidePanel.classList.add("open");
+    });
+
+    closeBtn.addEventListener("click", () => {
+        sidePanel.classList.remove("open");
+    });
+
+    loginToggleBtn2.addEventListener('click', () => {
+        showModal(loginModal2);
+    });
+    // Optional: Close panel when a link is clicked
+    document.querySelectorAll(".side-panel-links a").forEach(link => {
+        link.addEventListener("click", () => {
+            sidePanel.classList.remove("open");
+        });
+    });
+});

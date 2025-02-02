@@ -1,31 +1,39 @@
-/* Header Section */
-
-.main-header {
-  background: var(--header-bg);
-  color: var(--header-text-color);
-  padding: 20px 40px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 1px solid #ccc;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+:root {
+  --base-color: #f5f7fa; /* Light background for sections */
+  --base-variant: #ffffff; /* Lighter variant for backgrounds */
+  --text-color: #2d3a4b; /* Dark text for readability */
+  --secondary-text: #5c6f81; /* Subtle, muted text */
+  --primary-color: #1a1a1a; /* Dark color for headers */
+  --accent-color: #f4c542; /* Yellow for buttons and highlights */
+  --header-bg: #f5f7fa; /* Light, clean background for header */
+  --footer-bg: #f5f7fa; /* Light, clean background for footer */
+  --header-text-color: #2d3a4b; /* Dark text color for header */
+  --footer-text-color: #2d3a4b; /* Dark text color for footer */
+  --transition-duration: 0.4s;
+}
+body {
+  font-family: "Poppins", sans-serif;
+  background-color: var(--base-color);
+  color: var(--text-color);
+  line-height: 1.6;
   transition: background-color var(--transition-duration),
-    color var(--transition-duration);
-}
-.logo-container {
+  color var(--transition-duration);
   display: flex;
-  align-items: center;
+  flex-direction: column;
 }
-
-.logo {
-  width: 50px;
-  height: auto;
-  margin-right: 15px;
+html,
+body {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+  height: 100vh;
+  overflow-y: auto;
+  scroll-snap-type: y proximity;
 }
-.logo:hover {
-  transform: rotate(5deg) scale(1.1);
-}
-
-/* General Full-Screen Sections */
 .full-screen {
   height: 100vh; /* Full height */
   min-height: 100vh; /* Minimum height to cover the viewport */
@@ -43,35 +51,11 @@
   opacity: 1; /* Fade in */
   transform: translateY(0); /* Move to normal position */
 }
-/* Smooth Scroll Behavior */
-html,
-body {
-  scroll-behavior: smooth;
-  overflow-x: hidden;
-  height: 100vh;
-  overflow-y: auto;
-  scroll-snap-type: y proximity;
-}
-
-/* Container for Full-Screen Scroll */
-body {
-  display: flex;
-  flex-direction: column;
-}
-/* Remove box-shadow and border-radius for seamless transitions */
 section {
   padding: 80px 0;
   background-color: var(--base-variant);
   text-align: center;
 }
-
-.section-title {
-  font-size: 2.5rem;
-  font-weight: 700;
-  color: var(--primary-color);
-  margin-bottom: 40px;
-}
-
 /* Typography */
 h1,
 h2,
@@ -80,102 +64,11 @@ h3 {
   font-weight: 700;
   color: var(--primary-color);
 }
-
-.smart {
-  font-size: 2.8rem;
-  font-family: "Poppins", sans-serif;
-  letter-spacing: 1.5px;
-  margin-bottom: 20px;
-  color: #f4c542;
-  animation: fadeInUp 1s ease forwards;
-}
-
-.smart:hover {
-  color: #ffcc33; /* Slightly lighter accent color on hover */
-  text-shadow: 0px 0px 10px rgba(244, 197, 66, 0.6);
-  transform: scale(1.02); /* Gentle scale for interactivity */
-}
-
-.introd {
-  font-size: 2.2rem;
-  color: white;
-}
 p {
   font-size: 1.1rem;
 }
-.main-header h1 {
-  font-size: 1.8rem;
-  font-weight: 600;
-  color: var(--header-text-color);
-}
-/* Introduction Section */
-.introduction {
-  text-align: center;
-  margin-bottom: 3rem;
-}
 
-.introduction h2 {
-  font-size: 2.5rem;
-  color: var(--primary-color);
-  margin-bottom: 1rem;
-  animation: textZoomIn 0.5s ease;
-}
-
-.introduction p {
-  font-size: 1.4rem;
-  color: var(--text-color);
-  margin: 1.5rem 0;
-  animation: textFadeIn 0.5s ease;
-}
-
-.section-image {
-  width: 100%;
-  height: 300px; /* Fixed height for consistent appearance */
-  border-radius: 12px;
-  background-size: cover; /* Ensures image covers the entire div */
-  background-position: center; /* Center the background image */
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-  animation: imageZoomIn 0.5s ease;
-}
-.section-title {
-  font-size: 2.5rem;
-  width: 100%; /* Make sure it spans the full section width */
-  text-align: center;
-  color: #333;
-  margin-bottom: 40px;
-}
-
-/* Features Section */
-.features-section {
-  margin: 40px 0;
-}
-
-.features {
-  display: flex;
-  justify-content: space-between;
-}
-.features .feature-item:hover {
-  transform: scale(1.05);
-  transition: transform 0.3s ease, background-color 0.3s;
-}
-.feature-item {
-  background-color: white;
-  border-radius: 12px;
-  padding: 20px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  text-align: center;
-  width: 30%; /* Adjust width for responsiveness */
-  transition: transform 0.3s ease;
-}
-
-.feature-item:hover {
-  transform: scale(1.05);
-}
-
-.features-icon img {
-  width: 50px; /* Set a consistent size for icons */
-}
-/* Input Fields */
+/* ====================MODAL==================== */
 .input-email,
 .input-pass {
   width: 100%;
@@ -186,76 +79,304 @@ p {
   transition: box-shadow 0.2s ease, border-color 0.2s ease;
   font-size: 1.1rem;
 }
-
 .input-email:focus,
 .input-pass:focus {
   border-color: #f4c542;
   box-shadow: 0 0 8px rgba(244, 197, 66, 0.6);
   outline: none;
 }
-
-/* 'Not an owner? Buy now' text */
-.buy-now-text {
+.forgot-password {
   font-size: 0.9rem;
   color: #555;
-  margin-top: 30px; /* Slightly lower than the login button */
+  margin-top: 20px;
 }
-
-.buy-now-text a {
+.forgot-password a{
   color: #f4c542;
   text-decoration: none;
   transition: color 0.3s ease;
 }
-
-.buy-now-text a:hover {
+.forgot-password a:hover {
   color: #d8a327;
 }
-
-/* Error Message */
 .error-message {
   color: #ff4c4c;
   margin-top: 15px;
   font-size: 0.9rem;
 }
-
-.responsive-image {
-  width: 100%; /* Make it responsive */
-  height: auto; /* Maintain aspect ratio */
-  border-radius: 12px; /* Optional for rounded corners */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6); /* Dark semi-transparent background */
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  z-index: 2;
 }
+.modal.show {
+  display: flex;
+  opacity: 1;
+}
+.modal.show .modal-content {
+  transform: scale(1); /* Scale up */
+  opacity: 1; /* Fade in */
+}
+.modal-content {
+  background: #ffffff;
+  padding: 40px;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 400px; /* Limit the width of the modal */
+  text-align: center;
+  position: relative;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2); /* Subtle shadow for a modern look */
+}
+.modal-logo img {
+  width: 80px; /* Adjust size of the logo */
+  margin-bottom: 20px; /* Space between the logo and the login text */
+}
+.login-text {
+  font-family: "Poppins", sans-serif;
+  font-size: 1.5rem;
+  color: #333;
+  margin-bottom: 25px;
+}
+.login-form input {
+  width: 100%;
+  padding: 12px 15px;
+  margin: 10px 0;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  font-size: 1rem;
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+}
+.login-form input:focus {
+  border-color: #f4c542;
+  box-shadow: 0 0 8px rgba(244, 197, 66, 0.5);
+}
+.modal.show .modal-content {
+  animation: modalFadeIn 0.5s ease;
+}
+.close {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #ff4c4c;
+}
+.login-btn {
+  background-color: #f4c542; 
+  color: white;
+  border: none;
+  padding: 12px 25px; 
+  border-radius: 10px; 
+  font-size: 1.2rem; 
+  font-weight: 600; 
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); 
+  transition: background-color 0.3s ease, transform 0.3s ease,
+  box-shadow 0.3s ease;
+  margin-top: 20px;
+}
+.login-btn:hover {
+  background-color: #d8a327; 
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); 
+}
+.login-btn:active {
+  background-color: #bf8b1b;
+  transform: translateY(1px); /* Press down effect */
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2); 
+}
+@keyframes modalFadeIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    .modal.show .modal-content {
+      animation: modalFadeIn 0.5s ease;
+    }
 
-/* Accessibility */
-@media (prefers-contrast: high) {
-  body {
-    background: black;
-    color: white;
+    @keyframes modalFadeIn {
+      0% {
+        opacity: 0;
+        transform: scale(0.95);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    transform: scale(1);
   }
 }
 
-/* General Full-Screen Sections */
-.full-screen {
-  height: 100vh; /* Full screen height */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  padding: 0; /* Remove extra padding */
-  box-sizing: border-box;
-}
-/* Buy Now Button */
-.buy-now {
+/* ====================HEADER==================== */
+.main-header {
+  background: var(--header-bg);
   color: var(--header-text-color);
-  padding: 10px 20px;
-  border-radius: 8px;
+  padding: 20px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: left;
+  border-bottom: 1px solid #ccc;
+  transition: background-color var(--transition-duration),
+  color var(--transition-duration);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+.main-header h1 {
+  font-size: 1.8rem;
+  font-weight: 600;
+  margin: 0;
+  color: var(--header-text-color);
+}
+.logo-container {
+  display: flex;
+  align-items: center;
+}
+.logo {
+  width: 50px;
+  height: auto;
+  margin-right: 8px;
+  margin-left: -5%;
+}
+.logo:hover {
+  transform: rotate(5deg) scale(1.1);
+}
+.header-nav {
+  display: flex;
+  align-items: center;
+  gap: 20px; /* Space between links */
+}
+.nav-link {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--header-text-color);
+  text-decoration: none;
+  padding: 10px 15px;
+  transition: color 0.3s ease;
+}
+.nav-link:hover {
+  color: var(--accent-color); 
+  transform: translateY(-3px);
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+.login-toggle-btn {
+  font-family: "Poppins", sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--header-text-color);
+  background-color: transparent;
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+  transition: color 0.3s ease;
+  margin-bottom: 2px;
+}
+.login-toggle-btn:hover {
+  color: var(--accent-color);
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  transform: translateY(-2px);
+}
+.hamburger {
+  display: flex;
+  align-items: center; /* Vertically center the icon */
+  justify-content: center; /* Horizontally center the icon */
+  font-size: 1.5rem;
+  background: none;
+  border: none;
+  color: var(--header-text-color); 
+  cursor: pointer;
+  margin-left: auto; 
+  margin-right: -5%;
+}
+.hamburger i {
+  font-size: 1.5rem;
+}
+.header-nav {
+  display: none; /* Hide the nav links in mobile view, only show the hamburger */
+}
+.side-panel {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 250px;
+  height: 100%;
+  background-color: #fff;
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  transition: right 0.3s ease-in-out;
+  z-index: 1;
+}
+.side-panel.open {
+  right: 0;
+}
+.close-btn {
+  font-size: 2rem;
+  color: #333;
+  background: none;
+  border: none;
+  align-self: flex-end;
+  cursor: pointer;
+}
+.side-panel-links {
+  list-style: none;
+  padding: 0;
+  margin-top: 2rem;
+}
+.side-panel-links li {
+  margin: 1rem 0;
+}
+.side-panel-links a {
+  font-family: "Poppins", sans-serif;
+  text-decoration: none;
+  color: #333;
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: var(--header-text-color);
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  transition: color 0.3s ease;
+  margin-bottom: 2px;
+}
+.side-panel-links a:hover {
+  color: var(--accent-color); /* Same hover effect as links */
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  transform: translateY(-2px);
+}
+.login-toggle-btn2{
+  font-family: "Poppins", sans-serif;
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: var(--header-text-color);
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  transition: color 0.3s ease;
+  margin-bottom: 2px;
+  z-index: 999;
+}
+.login-toggle-btn2:hover {
+  color: var(--accent-color); /* Same hover effect as links */
   transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
-.buy-now:hover {
-  transform: translateY(-2px);
-}
-/* Hero Section */
+/* ====================FIRST SECTION==================== */
 .hero-section {
-  background-color: white; /* Set the background to white */
   position: relative;
   height: 100vh; /* 100% of the viewport height */
   min-height: 100vh; /* Ensures it always takes up full screen */
@@ -264,10 +385,8 @@ p {
   justify-content: center;
   align-items: center;
   text-align: center;
-  color: #000000; /* Adjust text color if needed */
   padding: 100px 20px;
 }
-
 #hero-video {
   position: absolute;
   top: 0;
@@ -277,7 +396,6 @@ p {
   object-fit: cover; /* Ensures the video covers the section */
   z-index: -2; /* Ensures the video stays behind the overlay */
 }
-
 .overlay {
   position: absolute;
   top: 0;
@@ -337,176 +455,102 @@ p {
   ); /* Subtle gradient effect */
   z-index: 0; /* Behind the text */
 }
-
-/* Header Navigation Links */
-.header-nav {
-  display: flex;
-  align-items: center;
-  gap: 20px; /* Space between links */
-}
-
-.nav-link {
-  font-size: 1rem;
-  font-weight: 500;
-  color: var(--header-text-color);
-  text-decoration: none;
-  padding: 10px 15px;
-  transition: color 0.3s ease;
-  position: relative; /* For separators */
-}
-
-.nav-link:hover {
-  color: var(--accent-color); /* Accent color hover effect */
-  transform: translateY(-3px);
-  transition: background-color 0.3s ease, transform 0.3s ease;
-}
-
-/* Adjust individual sections for a flat, integrated look */
-.hero-section,
-.commercialization,
-.benefits-section,
-.cta-section,
-.product-offerings {
-  background-color: var(--base-variant); /* Ensure consistent background */
-  padding: 60px min(50px, 7%); /* Uniform padding */
-  border-radius: 0; /* Remove any rounding */
-  box-shadow: none; /* Remove drop shadows */
-  margin: 0; /* Ensure no margins between sections */
-}
-/* Enhancing Transition */
-.hero-section,
-.commercialization,
-.benefits-section,
-.cta-section {
-  transition: transform 0.8s ease, opacity 0.8s ease;
-}
-
-/* General Reset */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
+.smart {
+  font-size: 4rem;
   font-family: "Poppins", sans-serif;
-  background-color: var(--base-color);
-  color: var(--text-color);
-  line-height: 1.6;
-  transition: background-color var(--transition-duration),
-    color var(--transition-duration);
+  letter-spacing: 1.3px;
+  margin-bottom: 20px;
+  color: #f4c542;
+  animation: fadeInUp 1s ease forwards;
+}
+.smart:hover {
+  color: #ffcc33; /* Slightly lighter accent color on hover */
+  text-shadow: 0px 0px 10px rgba(244, 197, 66, 0.6);
+  transform: scale(1.02); /* Gentle scale for interactivity */
 }
 
-:root {
-  --base-color: #f5f7fa; /* Light background for sections */
-  --base-variant: #ffffff; /* Lighter variant for backgrounds */
-  --text-color: #2d3a4b; /* Dark text for readability */
-  --secondary-text: #5c6f81; /* Subtle, muted text */
-  --primary-color: #1a1a1a; /* Dark color for headers */
-  --accent-color: #f4c542; /* Yellow for buttons and highlights */
-  --header-bg: #f5f7fa; /* Light, clean background for header */
-  --footer-bg: #f5f7fa; /* Light, clean background for footer */
-  --header-text-color: #2d3a4b; /* Dark text color for header */
-  --footer-text-color: #2d3a4b; /* Dark text color for footer */
-  --transition-duration: 0.4s;
-}
-
-.commercialization {
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 40px;
+/* ====================SECOND SECTION====================*/
+.introduction {
   text-align: center;
-  background: linear-gradient(to right, #f0f4f8, #fff); /* Soft gradient */
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin-bottom: 3rem;
+}
+.introduction h2 {
+  font-size: 2.8rem;
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+  animation: textZoomIn 0.5s ease;
+}
+.introduction p {
+  font-size: 1.4rem;
+  color: var(--text-color);
+  margin: 1.5rem 0;
+  animation: textFadeIn 0.5s ease;
+}
+.section-image {
+  width: 100%;
+  height: 300px; /* Fixed height for consistent appearance */
   border-radius: 12px;
+  background-size: cover; /* Ensures image covers the entire div */
+  background-position: center; /* Center the background image */
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  animation: imageZoomIn 0.5s ease;
 }
 
-/* Card Design for Products & Benefits */
-.card {
-  background-color: #ffffff;
-  border-radius: 10px;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  transition: transform 0.3s, box-shadow 0.3s;
+/* ====================THIRD SECTION==================== */
+.section-title {
+  font-size: 2.5rem;
+  width: 100%; /* Make sure it spans the full section width */
+  text-align: center;
+  color: #333;
+  margin-bottom: 40px;
 }
-.button {
-  background-color: var(--accent-color);
-  color: #ffffff;
-  padding: 12px 25px;
-  font-size: 1.2rem;
-  font-weight: 600;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.3s ease;
-}
-.button:hover {
-  background-color: #d8a327;
-  transform: translateY(-2px);
-}
-.card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
-}
-
 .ourproduct {
+  margin-top: -10px;
   margin-bottom: -10px;
 }
-/* Product Title */
 .product-title {
-  font-size: 1.8rem; /* Font size for product title */
-  color: var(--primary-color); /* Title color */
-  margin-bottom: 10px; /* Space below title */
-  font-weight: 600; /* Bold text */
+  font-size: 1.8rem; 
+  color: var(--primary-color);
+  margin-bottom: 10px;
+  font-weight: 600;
 }
 .product-title2 {
-  font-size: 1.8rem; /* Font size for product title */
-  color: var(--primary-color); /* Title color */
+  font-size: 1.8rem; 
+  color: var(--primary-color);
   margin-top: -10px;
-  margin-bottom: 10px; /* Space below title */
-  font-weight: 600; /* Bold text */
+  margin-bottom: 10px;
+  font-weight: 600;
 }
-/* Product Description */
 .product-description {
-  font-size: 1.2rem; /* Font size for description */
-  margin-bottom: 15px; /* Space below description */
-  color: #555; /* Slightly muted text color */
+  font-size: 1.2rem;
+  margin-bottom: 15px; 
+  color: #555;
 }
-
-/* Product Features List */
 .product-features {
   list-style-type: none; /* Remove default list styling */
-  padding: 0; /* Remove padding */
-  margin: 15px 0; /* Space around the list */
+  padding: 0; 
+  margin: 15px 0; 
 }
-
-/* Individual Feature List Items */
 .product-features li {
   text-align: left;
-  margin-bottom: 10px; /* Space between list items */
-  font-size: 1.1rem; /* Font size for list items */
-  color: var(--text-color); /* Use existing text color */
+  margin-bottom: 10px;
+  font-size: 1.1rem; 
+  color: var(--text-color);
   position: relative; /* For pseudo-element */
   padding-left: 25px; /* Space for the bullet point */
 }
-
 /* Add a bullet point using a pseudo-element */
 .product-features li::before {
-  content: "✔"; /* Use a checkmark or a custom icon */
-  position: absolute; /* Position it absolutely */
-  left: 0; /* Align left */
-  color: var(--accent-color); /* Bullet color */
-  font-size: 1.2rem; /* Size of the bullet */
+  content: "✔"; /* Use a checkmark */
+  position: absolute;
+  left: 0; 
+  color: var(--accent-color);
+  font-size: 1.2rem; 
 }
-
-/* Optional: Add a hover effect to list items */
 .product-features li:hover {
-  color: var(--accent-color); /* Change color on hover */
-  transition: color 0.3s ease; /* Smooth transition */
+  color: var(--accent-color); 
+  transition: color 0.3s ease; 
 }
-
-/* Product Offerings */
 .product-offerings {
   background: var(--base-color);
   padding: 40px;
@@ -515,19 +559,16 @@ body {
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
   animation: fadeInUp 0.6s ease;
 }
-
 .product-container {
   display: flex;
   justify-content: center;
-  gap: 40px; /* Increase the space between the cards */
+  gap: 35px; 
   padding: 20px;
-  flex-wrap: wrap; /* Ensure responsiveness on smaller screens */
+  flex-wrap: wrap; 
 }
 .product-container {
-  align-items: stretch; /* Stretch cards to the same height */
+  align-items: stretch; 
 }
-
-/* Product Card */
 .product-card {
   background-color: #ffffff;
   border-radius: 10px;
@@ -535,79 +576,28 @@ body {
   padding: 20px;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   text-align: center;
-  flex: 1 1 40%; /* Allow cards to take up 40% of the container width */
-  max-width: 500px; /* Set a maximum width for large screens */
-  margin: 0; /* Remove default margin */
+  flex: 1 1 40%; 
+  max-width: 100%; 
+  margin: 0px; 
 }
-
-/* Hover Effect */
 .product-card:hover {
-  transform: scale(1.06); /* Slight zoom on hover */
+  transform: scale(1.06);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
 }
-
-.product {
-  background: #f9f9f9;
-  padding: 20px;
-  width: 48%;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s, box-shadow 0.3s;
-  animation: slideIn 0.8s ease;
-}
-
-.product:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
-}
-
-.product h3 {
-  font-size: 1.8rem;
-  color: var(--primary-color);
-  margin-bottom: 1rem;
-}
-
-.product p {
-  font-size: 1.2rem;
-  color: var(--text-color);
-  margin-bottom: 1rem;
-}
-
-.product ul {
-  list-style: none;
-  padding: 0;
-  margin-bottom: 1rem;
-}
-
-.product li {
-  margin-bottom: 0.75rem;
-  font-size: 1.1rem;
-  color: #555;
-}
-
 .product-image {
-  width: 100%;
-  height: 200px; /* Fixed height for product images */
+  margin-left: auto;
+  margin-right: auto;
+  width: 100px;
+  height: 100px; 
   background-size: cover;
   background-position: center;
   border-radius: 12px;
   transition: transform 0.3s ease;
 }
 
-.product:hover .product-image {
-  transform: scale(1.1);
-}
-
-/* Benefits Section */
-.benefits-section {
-  background-color: var(--base-variant);
-  padding: 60px 0;
-  border-radius: 12px;
-}
+/* ====================FOURTH SECTION==================== */
 .benefits-section h2 {
-  margin-bottom: 30px; /* Increase spacing below the heading */
-  padding-top: 20px; /* Ensure it has some padding from the section's top */
-  font-size: 2.2rem; /* Slightly larger font for better emphasis */
+  font-size: 2.2rem;
   font-weight: 600;
   color: var(--primary-color);
 }
@@ -615,10 +605,9 @@ body {
   display: flex;
   justify-content: space-between;
 }
-
 .benefit-item {
   background-color: white;
-  width: 22%; /* Set fixed width for uniformity */
+  width: 24%; /* Set fixed width for uniformity */
   padding: 2rem;
   border-radius: 12px;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
@@ -628,18 +617,15 @@ body {
 .benefit-item:hover {
   transform: translateY(-10px);
 }
-
 .benefit-item h4 {
   font-size: 1.6rem;
   color: var(--primary-color);
   margin-bottom: 0.75rem;
 }
-
 .benefit-item p {
   font-size: 1.1rem;
   color: #555;
 }
-
 .benefit-icon {
   font-size: 2rem;
   color: var(--accent-color);
@@ -648,73 +634,26 @@ body {
 .benefit-icon img {
   width: 50px; /* Set a consistent size for benefit icons */
 }
-/* FAQ Section */
-.faq {
-  margin: 4rem 0;
-}
 
-.faq-item {
-  background-color: white;
-  padding: 2rem;
-  border-radius: 12px;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-  margin-bottom: 2rem;
-  transition: transform 0.3s ease;
-}
-
-.faq-item:hover {
-  transform: translateY(-10px);
-}
-
-.faq-item h4 {
-  font-size: 1.6rem;
-  color: var(--primary-color);
-  margin-bottom: 1rem;
-}
-
-.faq-item p {
-  font-size: 1.1rem;
-  color: #555;
-}
-
-/* Video Section */
-.video-demo {
-  margin: 4rem 0;
-  text-align: center;
-  background-color: var(--bg-light);
-}
-
-.demo-video {
-  width: 100%;
-  max-width: 700px;
-  border-radius: 12px;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-  animation: fadeInUp 0.5s ease;
-}
-
-/* Call to Action */
+/* ====================FIFTH SECTION==================== */
 .cta-section {
-  height: 100vh; /* Make it take the full screen height */
-  min-height: 100vh; /* Ensures it fills the viewport */
+  height: 100vh;
+  min-height: 100vh; 
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
-  padding: 40px; /* Increase padding to make it larger */
-  background-color: var(--bg-light); /* Optional: Add a background color */
+  padding: 40px; 
   animation: fadeInUp 0.5s ease;
 }
-
 .cta-section h2 {
   font-size: 2.5rem;
   margin-bottom: 20px;
 }
-
 .cta-section p {
   font-size: 1.2rem;
   margin-bottom: 20px;
 }
-
 .cta-btn {
   background-color: var(--accent-color);
   color: white;
@@ -726,170 +665,34 @@ body {
   margin-top: 20px;
   transition: background-color 0.2s ease, transform 0.2s ease;
 }
-
 .cta-btn:hover {
   background: #48cae4; /* Slightly different shade */
   transform: translateY(-5px);
 }
-
-/* Modal for login */
-.modal {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.6); /* Dark semi-transparent background */
-  justify-content: center;
-  align-items: center;
-  opacity: 0;
-  transition: opacity 0.4s ease;
+.buy-now-text {
+  font-size: 0.9rem;
+  color: #555;
+  margin-bottom: -20px;
 }
-
-.modal.show {
-  display: flex;
-  opacity: 1;
-}
-
-.modal.show .modal-content {
-  transform: scale(1); /* Scale up */
-  opacity: 1; /* Fade in */
-}
-.modal-content {
-  background: #ffffff;
-  padding: 40px;
-  border-radius: 12px;
-  width: 100%;
-  max-width: 400px; /* Limit the width of the modal */
-  text-align: center;
-  position: relative;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2); /* Subtle shadow for a modern look */
-}
-.modal-logo img {
-  width: 80px; /* Adjust size of the logo */
-  margin-bottom: 20px; /* Space between the logo and the login text */
-}
-.login-text {
-  font-family: "Poppins", sans-serif;
-  font-size: 1.5rem;
-  color: #333;
-  margin-bottom: 25px;
-}
-.login-form input {
-  width: 100%;
-  padding: 12px 15px;
-  margin: 10px 0;
-  border-radius: 8px;
-  border: 1px solid #ddd;
-  font-size: 1rem;
-  transition: box-shadow 0.2s ease, border-color 0.2s ease;
-}
-
-.login-form input:focus {
-  border-color: #f4c542;
-  box-shadow: 0 0 8px rgba(244, 197, 66, 0.5);
-}
-.modal.show .modal-content {
-  animation: modalFadeIn 0.5s ease;
-}
-
-@keyframes modalFadeIn {
-  0% {
-    opacity: 0;
-    transform: scale(0.95);
-  }
-  100% {
-    opacity: 1;
-    .modal.show .modal-content {
-      animation: modalFadeIn 0.5s ease;
-    }
-
-    @keyframes modalFadeIn {
-      0% {
-        opacity: 0;
-        transform: scale(0.95);
-      }
-      100% {
-        opacity: 1;
-        transform: scale(1);
-      }
-    }
-
-    transform: scale(1);
-  }
-}
-
-@keyframes scaleUp {
-  from {
-    transform: scale(0.8);
-    opacity: 0;
-  }
-  to {
-    transform: scale(1);
-    opacity: 1;
-  }
-}
-.close {
-  position: absolute;
-  top: 15px;
-  right: 15px;
-  font-size: 1.5rem;
-  cursor: pointer;
-  color: #ff4c4c;
-}
-
-/* Login Button for modal */
-.login-btn {
-  background-color: #f4c542; /* Bright, eye-catching color */
-  color: white;
-  border: none;
-  padding: 12px 25px; /* Increase padding for better visibility */
-  border-radius: 10px; /* Softer corners for a modern look */
-  font-size: 1.2rem; /* Slightly larger font size */
-  font-weight: 600; /* Bold text for emphasis */
-  cursor: pointer;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Soft shadow for a 3D effect */
-  transition: background-color 0.3s ease, transform 0.3s ease,
-    box-shadow 0.3s ease;
-  margin-top: 20px;
-}
-
-/* Hover Effect - Slight movement and color change */
-.login-btn:hover {
-  background-color: #d8a327; /* Slightly darker shade */
-  transform: translateY(-3px); /* Slight upward movement */
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Enhance shadow on hover */
-}
-
-/* Active State - Button presses down slightly */
-.login-btn:active {
-  background-color: #bf8b1b; /* Even darker shade when clicked */
-  transform: translateY(1px); /* Press down effect */
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2); /* Slightly reduce shadow */
-}
-
-/* Login Button Styling Consistent with Links */
-.login-toggle-btn {
-  font-family: "Poppins", sans-serif;
-  font-size: 1rem;
-  font-weight: 500;
-  color: var(--header-text-color);
-  background-color: transparent;
-  border: none;
-  padding: 10px 15px;
-  cursor: pointer;
+.buy-now-text a {
+  color: #f4c542;
+  text-decoration: none;
   transition: color 0.3s ease;
-  margin-bottom: 2px;
 }
-
-.login-toggle-btn:hover {
-  color: var(--accent-color); /* Same hover effect as links */
+.buy-now-text a:hover {
+  color: #d8a327;
+}
+.buy-now {
+  color: var(--header-text-color);
+  padding: 10px 20px;
+  border-radius: 8px;
   transition: background-color 0.3s ease, transform 0.3s ease;
+}
+.buy-now:hover {
   transform: translateY(-2px);
 }
 
-/* Footerrrrrrrrrrrrrrrrrrrrr */
+/* ====================FOOTER==================== */
 .main-footer {
   background: var(--footer-bg);
   padding: 20px 40px;
@@ -906,23 +709,6 @@ body {
 }
 .main-footer a:hover {
   color: var(--accent-color);
-}
-
-.footer-content {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  font-size: 0.8rem; /* Reduced text size */
-}
-.footer-logo {
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-}
-
-.footer-logo img {
-  width: 40px; /* Smaller logo */
 }
 .footer-links {
   display: flex;
@@ -942,14 +728,9 @@ body {
   display: inline-block;
   transition: transform 0.3s;
 }
-.main-footer .footer-content p,
-.main-footer .footer-content a {
-  color: var(--footer-text-color);
-}
 .main-footer .social-media a img {
   width: 20px; /* Smaller icons */
 }
-
 .main-footer .social-media a:hover {
   transform: scale(1.2);
 }
@@ -964,121 +745,167 @@ body {
   opacity: 1;
 }
 
-/* Mobile */
+/* Tablet Screens */
+@media (min-width: 768px) {
+  .header-nav {
+    display: flex; /* Show nav links for larger screens */
+  }
+
+  .hamburger {
+    display: none; /* Hide hamburger on larger screens */
+  }
+}
 @media (max-width: 768px) {
-  /* Full-Screen Sections - Mobile adjustments */
+  /*header*/
+  .logo {
+    width: 50px;
+    height: 50px;
+    margin-right: 15px;
+  }
+  .main-header h1 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--header-text-color);
+  }
   .full-screen {
-    padding: 20px;
     height: auto; /* Allow sections to grow if content is long */
     min-height: 100vh; /* Ensure it still takes up the viewport height */
     text-align: center; /* Center-align text on smaller screens */
   }
-
-  /* Section Title for Mobile */
-  .section-title {
-    font-size: 2rem; /* Smaller font size for mobile */
-  }
-  .overlay h2 {
-    font-size: 1.4rem;
-  }
+  /*first section*/
   .overlay h2.smart {
-    font-size: 3rem;
-    color: #f4c542; /* Accent color */
-    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.7); /* Stronger shadow for contrast */
+    font-size: 2.5rem;
+    color: #f4c542; 
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.7);
     margin-bottom: 20px;
   }
   .overlay p {
     font-family: "Poppins", sans-serif;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     font-weight: 300;
     max-width: 700px;
     color: #f1f1f1;
-    line-height: 1.7; /* More spacious line height for readability */
+    line-height: 1.7; 
     padding: 0 20px;
     margin-top: 15px;
     animation: fadeInUp 1.2s ease forwards;
   }
-
-  /* Hover Effect for the Overlay */
   .overlay:hover .smart {
-    transform: scale(1.05); /* Scale up on hover for emphasis */
+    transform: scale(1.05); 
   }
-  /* CTA Section for Mobile */
-  .cta-section {
-    padding: 30px 20px;
-    height: auto; /* Allow height to adjust based on content */
-    min-height: 100vh;
+  /*second section*/
+  .section-image {
+    height: 100%;
+    width: 100%;
   }
-
-  .cta-section h2 {
-    font-size: 2rem; /* Adjust heading size */
+  .introduction h2{
+    margin-top: -10%;
+    font-size: 1.8rem;
   }
-
-  .cta-section p {
-    font-size: 1.1rem;
-  }
-
-  .cta-btn {
+  .introduction p{
     font-size: 1rem;
-    padding: 12px 25px; /* Adjust button size */
   }
 
-  /* Product Offerings */
-  .product {
-    width: 90%; /* Full width on smaller screens */
+ /*third section*/
+ .section-title {
+  font-size: 1.5rem; 
+  }
+  .product-container {
+    width: 100%;
     margin: 10px auto;
   }
-
-  /* Features and Benefits Sections */
-  .features,
-  .product-offerings,
-  .benefits {
+  .product-title{
+    font-size: 1.2rem;
+  }
+  .product-description{
+    font-size: 0.8rem;
+  }
+  .product-card{
+    max-width: 100%;
+  }
+  .product-card li{
+  font-size: 0.6rem;
+  }
+  .product-offerings{
     flex-direction: column; /* Stack items vertically */
     align-items: center; /* Center align */
   }
-
-  .feature-item,
-  .benefit-item {
-    width: 90%; /* Full width for smaller screens */
-    margin: 10px 0; /* Spacing between items */
+  .product-image {
+    height: 0px;
+    width: 0px;
+  }
+  .product-features li::before {
+    font-size: 0.8rem; 
   }
 
+   /*fourth section*/
+   .benefits-section img{
+    height: 10%;
+    width: 10%;
+   }
+   .benefits-section h2{
+    font-size: 1.4rem;
+    margin-bottom: 10px; 
+    padding-top: 10px;
+   }
+   .benefits-section h4{
+    font-size: 1rem;
+   }
+   .benefits-section p{
+    font-size: 0.8rem;
+   }
+   .benefits {
+    flex-direction: column; /* Stack items vertically */
+    align-items: center; /* Center align */
+  }
+  .benefit-item {
+    width: 100%;
+    margin: 5px 0; 
+  }
+  /*fifth section*/
+  .cta-section h2 {
+    font-size: 2rem;
+  }
+  .cta-section p {
+    font-size: 1.1rem;
+  }
+  .cta-btn {
+    font-size: 1rem;
+    padding: 12px 25px;
+  }
+  /* footer */
   .footer-content {
     width: 100%;
   }
-
   .footer-logo img {
-    width: 30px; /* Smaller logo for mobile */
+    width: 30px; 
   }
-
   .footer-links a {
-    font-size: 0.7rem; /* Smaller text */
+    font-size: 0.5rem; 
     margin: 5px;
   }
-
   .social-media a img {
-    width: 14px; /* Smaller icons */
+    width: 14px;
   }
-
-  /* Modal for Mobile */
+  .footer-links,
+  .social-media {
+    flex-direction: column; /* Stack footer links vertically */
+    align-items: center;
+  }
+  
+  /* etc*/
   .modal-content {
     padding: 2rem;
     max-width: 90%;
   }
-
   .login-btn {
     font-size: 1rem;
     padding: 10px;
   }
   .main-header {
     flex-direction: column;
-    text-align: center;
+    text-align: left;
   }
-
-  .card {
-    margin-bottom: 20px;
-  }
-
   .button {
     font-size: 1rem;
     padding: 10px 20px;
@@ -1086,77 +913,193 @@ body {
   .modal-content {
     padding: 30px;
   }
-
   .login-text {
     font-size: 1.2rem;
   }
-  .benefits-section h2 {
-    margin-bottom: 20px; /* Adjust spacing for smaller screens */
+  .footer-links a {
+    font-size: 0.8rem; 
+    margin: 5px;
+  }
+}
+/* Mobile Screens */
+@media (max-width: 480px) {
+  /*header*/
+  .logo {
+    width: 50px;
+    height: 50px;
+    margin-right: 15px;
+  }
+  .main-header h1 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--header-text-color);
+  }
+  .full-screen {
+    height: auto; /* Allow sections to grow if content is long */
+    min-height: 100vh; /* Ensure it still takes up the viewport height */
+    text-align: center; /* Center-align text on smaller screens */
+  }
+  /*first section*/
+  .overlay h2.smart {
+    font-size: 2.5rem;
+    color: #f4c542; 
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.7);
+    margin-bottom: 20px;
+  }
+  .overlay p {
+    font-family: "Poppins", sans-serif;
+    font-size: 1.1rem;
+    font-weight: 300;
+    max-width: 700px;
+    color: #f1f1f1;
+    line-height: 1.7; 
+    padding: 0 20px;
+    margin-top: 15px;
+    animation: fadeInUp 1.2s ease forwards;
+  }
+  .overlay:hover .smart {
+    transform: scale(1.05); 
+  }
+  /*second section*/
+  .section-image {
+    height: 100%;
+    width: 100%;
+  }
+  .introduction h2{
+    margin-top: -10%;
+    font-size: 1.8rem;
+  }
+  .introduction p{
+    font-size: 1rem;
+  }
+
+ /*third section*/
+  .section-title {
+    font-size: 1.5rem; 
+    }
+    .product-container {
+      width: 100%;
+      margin: 10px auto;
+    }
+    .product-title{
+      font-size: 1.2rem;
+    }
+    .product-description{
+      font-size: 0.8rem;
+    }
+    .product-card{
+      max-width: 100%;
+    }
+    .product-card li{
+    font-size: 0.6rem;
+    }
+    .product-offerings{
+      flex-direction: column; /* Stack items vertically */
+      align-items: center; /* Center align */
+    }
+    .product-image {
+      height: 0px;
+      width: 0px;
+    }
+    .product-features li::before {
+      font-size: 0.8rem; 
+    }
+    
+   /*fourth section*/
+   .benefits-section img{
+    height: 10%;
+    width: 10%;
+   }
+   .benefits-section h2{
+    font-size: 1.4rem;
+    margin-bottom: 10px; 
     padding-top: 10px;
+   }
+   .benefits-section h4{
+    font-size: 1rem;
+   }
+   .benefits-section p{
+    font-size: 0.8rem;
+   }
+   .benefits {
+    flex-direction: column; /* Stack items vertically */
+    align-items: center; /* Center align */
+  }
+  .benefit-item {
+    width: 100%;
+    margin: 5px 0; 
+  }
+  /*fifth section*/
+  .cta-section h2 {
+    font-size: 2rem;
+  }
+  .cta-section p {
+    font-size: 1.1rem;
+  }
+  .cta-btn {
+    font-size: 1rem;
+    padding: 12px 25px;
+  }
+  /* footer */
+  .footer-content {
+    width: 100%;
+  }
+  .footer-logo img {
+    width: 30px; 
+  }
+  .footer-links a {
+    font-size: 0.5rem; 
+    margin: 5px;
+  }
+  .social-media a img {
+    width: 14px;
   }
   .footer-links,
   .social-media {
     flex-direction: column; /* Stack footer links vertically */
     align-items: center;
   }
-
+  
+  /* etc*/
+  .modal-content {
+    padding: 2rem;
+    max-width: 90%;
+  }
+  .login-btn {
+    font-size: 1rem;
+    padding: 10px;
+  }
+  .main-header {
+    flex-direction: column;
+    text-align: left;
+  }
+  .button {
+    font-size: 1rem;
+    padding: 10px 20px;
+  }
+  .modal-content {
+    padding: 30px;
+  }
+  .login-text {
+    font-size: 1.2rem;
+  }
   .footer-links a {
-    font-size: 0.8rem; /* Adjust link size */
+    font-size: 0.8rem; 
     margin: 5px;
   }
-  .product-card {
-    flex: 1 1 100%; /* Full width on mobile */
-    max-width: 100%;
-    margin-bottom: 20px;
-  }
-
-  .product-image {
-    height: auto; /* Ensure image height adjusts */
-  }
-
-  .section-image {
-    height: auto; /* Ensure section images scale down */
-  }
-  .header-nav {
-    flex-direction: column; /* Stack links vertically */
-    gap: 10px; /* Adjust spacing */
-  }
-
-  .nav-link {
-    font-size: 1rem; /* Adjust link size */
-    padding: 8px 15px; /* Adjust padding */
-  }
 }
 
-@media (max-width: 576px) {
-  h1 {
-    font-size: 1.8rem;
+/* ====================ANIMIATIONS==================== */
+@keyframes scaleUp {
+  from {
+    transform: scale(0.8);
+    opacity: 0;
   }
-
-  h2 {
-    font-size: 1.6rem;
-  }
-
-  .logo {
-    width: 80px;
-  }
-
-  .modal-content {
-    padding: 1.5rem;
-  }
-
-  .main-footer .social-media a img {
-    width: 16px; /* Even smaller icons */
+  to {
+    transform: scale(1);
+    opacity: 1;
   }
 }
-
-@media (max-width: 480px) {
-  .product-card {
-    flex: 1 1 100%; /* Make cards full-width on mobile */
-    max-width: 100%;
-  }
-}
-
 /* Smooth Scroll Animation Keyframes */
 @keyframes fadeInUp {
   0% {
@@ -1168,7 +1111,6 @@ body {
     transform: translateY(0);
   }
 }
-
 @keyframes fadeInDown {
   0% {
     opacity: 0;
@@ -1187,7 +1129,6 @@ body {
     opacity: 1;
   }
 }
-
 @keyframes textZoomIn {
   from {
     transform: scale(0.8);
@@ -1198,7 +1139,6 @@ body {
     opacity: 1;
   }
 }
-
 @keyframes imageZoomIn {
   from {
     transform: scale(0.9);
@@ -1209,7 +1149,6 @@ body {
     opacity: 1;
   }
 }
-
 @keyframes productFadeIn {
   from {
     opacity: 0;
@@ -1220,7 +1159,6 @@ body {
     transform: scale(1);
   }
 }
-
 @keyframes videoFadeIn {
   from {
     opacity: 0;
@@ -1231,7 +1169,6 @@ body {
     transform: scale(1);
   }
 }
-
 @keyframes slideDown {
   from {
     transform: translateY(-20px);
@@ -1242,7 +1179,6 @@ body {
     opacity: 1;
   }
 }
-
 @keyframes slideIn {
   from {
     opacity: 0;
@@ -1253,7 +1189,6 @@ body {
     transform: translateX(0);
   }
 }
-
 @keyframes fadeIn {
   from {
     opacity: 0;
