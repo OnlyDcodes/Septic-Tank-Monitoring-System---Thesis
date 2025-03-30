@@ -21,13 +21,29 @@ let capacityChart, historicalChart;
 auth.onAuthStateChanged((user) => {
   if (user) {
     const userId = user.uid;
-    if (userId === 'oAXEiv3HxfbNlRpH4i2o4mju0sJ2') {
-      initializeApp(userId, 'septicTankData');
-    } else if (userId === '2GVrMIaFSGeoC01g8zYuin2c5ej2') {
-      initializeApp(userId, 'septicTankData');
-    } else {
-      console.log("Unknown user. No data available.");
-    }
+    const urlParams = new URLSearchParams(window.location.search);
+    const tankNumber = urlParams.get('tank') || '1';  // Default to tank 1 if not specified
+    
+    // Construct the data key based on tank number
+    const dataKey = tankNumber === '1' ? 'septicTankData' : `septicTankData${tankNumber}`;
+    
+    // Check if this tank exists for this user
+    database.ref(`users/${userId}/${dataKey}`).once('value')
+      .then((snapshot) => {
+        if (snapshot.exists()) {
+          // Tank exists, initialize the app
+          initializeApp(userId, dataKey);
+          document.querySelector('.branding h1').textContent = `Septic Tank ${tankNumber}`;
+        } else {
+          // Tank doesn't exist for this user, redirect to tank 1
+          console.log(`Tank ${tankNumber} not found for this user`);
+          window.location.href = 'monitor.html?tank=1';
+        }
+      })
+      .catch((error) => {
+        console.error('Error checking tank access:', error);
+        window.location.href = 'monitor.html?tank=1';
+      });
   } else {
     window.location.href = '../index.html';
   }
@@ -51,10 +67,27 @@ function fetchTankDimensions(userId) {
 }
 
 function initializeApp(userId, dataKey) {
+  // Get data for capacity readings
   database.ref(`users/${userId}/${dataKey}`).orderByKey().limitToLast(10).on('value', (snapshot) => {
     handleSnapshot(snapshot);
   }, handleError);
-  fetchTankDimensions(userId);
+
+  // Make dimensions key dynamic
+  const dimensionsKey = dataKey === 'septicTankData' ? 
+    'tankDimensions' : 
+    'tankDimensions' + dataKey.replace('septicTankData', '');
+  
+  // Fetch the appropriate tank dimensions
+  database.ref(`users/${userId}/${dimensionsKey}`).once('value', (snapshot) => {
+    if (snapshot.exists()) {
+      const dimensions = snapshot.val();
+      document.getElementById('tankHeight').textContent = `${dimensions.tank_height} cm`;
+      document.getElementById('tankLength').textContent = `${dimensions.tank_length} cm`;
+      document.getElementById('tankWidth').textContent = `${dimensions.tank_width} cm`;
+    } else {
+      console.error(`${dimensionsKey} not found.`);
+    }
+  });
 }
 
 function initializeCharts() {
@@ -193,7 +226,7 @@ function updateHistoricalChart(Cc, date, Tc) {
 }
 
 function calculatePrediction(Cc, Tc) {
-  if (Ti !== null && Ti !== null) {
+  if (Ti !== null && Ci !== null) {
     const C = Cc - Ci; // Change in capacity 
     const T = Tc - Ti; // Time difference
 
@@ -202,21 +235,25 @@ function calculatePrediction(Cc, Tc) {
     const Tf = Cr / Q; // Estimated time until full 
 
     if (Q > 0) {
-      const Th = Tf;
-      const days = Math.floor(Th / 86400);  // 86400 seconds in a day
-      const hours = Math.floor((Th % 86400) / 3600);  // Remaining hours after extracting days
-      const minutes = Math.floor((Th % 3600) / 60);   // Remaining minutes after extracting hours
+      if (Tf < 60) {
+        document.getElementById("prediction").innerHTML = `<span class="urgent-warning">The Septic Tank will be full in less than a minute!</span>`;
+      } else {
+        const Th = Tf;
+        const days = Math.floor(Th / 86400);  // 86400 seconds in a day
+        const hours = Math.floor((Th % 86400) / 3600);  // Remaining hours after extracting days
+        const minutes = Math.floor((Th % 3600) / 60);   // Remaining minutes after extracting hours
 
-      let predictionText = `<span class="time-until-full">The Septic Tank will be full in `;
+        let predictionText = `<span class="time-until-full">The Septic Tank will be full in `;
 
-      const timeParts = [];
-      if (days > 0) timeParts.push(`${days} day${days !== 1 ? 's' : ''}`);
-      if (hours > 0) timeParts.push(`${hours} hour${hours !== 1 ? 's' : ''}`);
-      if (minutes > 0) timeParts.push(`${minutes} minute${minutes !== 1 ? 's' : ''}`);
+        const timeParts = [];
+        if (days > 0) timeParts.push(`${days} day${days !== 1 ? 's' : ''}`);
+        if (hours > 0) timeParts.push(`${hours} hour${hours !== 1 ? 's' : ''}`);
+        if (minutes > 0) timeParts.push(`${minutes} minute${minutes !== 1 ? 's' : ''}`);
 
-      predictionText += `<strong>${timeParts.join(' and ')}</strong></span>`;
+        predictionText += `<strong>${timeParts.join(' and ')}</strong></span>`;
 
-      document.getElementById("prediction").innerHTML = predictionText;
+        document.getElementById("prediction").innerHTML = predictionText;
+      }
     } else if (Q < 0) {
       document.getElementById("prediction").innerHTML = `<span class="negative-flow">Negative flow rate detected! The septic tank capacity is decreasing.</span>`;
     } else {

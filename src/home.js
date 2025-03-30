@@ -12,36 +12,73 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const db = firebase.firestore();
+const database = firebase.database();
 
 auth.onAuthStateChanged((user) => { // Authentication check
   if (user) {
+    const userId = user.uid;
+    console.log('Current user UID:', userId);
+    const tankList = document.querySelector('.tank-list');
     
-    const userEmail = user.email;  // Get user's email
+    database.ref('users/' + userId).once('value')
+      .then((snapshot) => {
+        console.log('Database snapshot exists:', snapshot.exists());
+        const userData = snapshot.val();
+        console.log('Database data received:', userData);
+
+        if (userData) {
+          // Get all keys from userData
+          const keys = Object.keys(userData);
+          console.log('Found keys:', keys);
+
+          // Create tanks for all septicTankData entries
+          keys.forEach(key => {
+            if (key.startsWith('septicTankData')) {
+              // Get tank number ('' for first tank, or the actual number)
+              const tankNum = key === 'septicTankData' ? '1' : key.replace('septicTankData', '');
+              console.log('Creating tank box for tank:', tankNum);
+
+              const tankBox = document.createElement('div');
+              tankBox.className = 'tank-box';
+              tankBox.innerHTML = `<p><a href="../monitor/monitor.html?tank=${tankNum}">Septic Tank ${tankNum}</a></p>`;
+              tankList.appendChild(tankBox);
+              console.log(`Tank ${tankNum} box created`);
+            }
+          });
+        }
+      })
+      .catch((error) => {
+        console.error('Error reading from database:', error);
+      });
+
+    const userEmail = user.email;
+    console.log('User email:', userEmail); // Log user email
 
     // Retrieve the user's data from Firestore 
     db.collection('users').doc(userEmail).get()
       .then((doc) => {
         if (doc.exists) {
           const userData = doc.data();
+          console.log('Firestore user data:', userData); // Log Firestore data
 
-          // Update the profilePicUrl element to the stored pic
           if (userData.profilePicUrl) {
             document.querySelector('.profile-pic').src = userData.profilePicUrl;
+            console.log('Profile picture updated');
           }
 
-          // Update the @User element to the st ored username
           if (userData.username) {
             document.querySelector('.username-display').textContent = userData.username;
+            console.log('Username updated');
           }
         } else {
-          console.log("No user data found!");
+          console.log("No user data found in Firestore!");
         }
       })
       .catch((error) => {
         console.error("Error retrieving user data: ", error);
       });
   } else {
-    // If no user is logged in, redirect to login
+    console.log('No user authenticated, redirecting to login');
     window.location.href = '../index.html';
   }
 });
